@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_first/features/library/data/datasources/local/book_local_data_source.dart';
-import 'package:flutter_first/features/library/data/exceptions/cache_exception.dart';
-import 'package:flutter_first/features/library/data/model/book_model.dart';
+import 'package:book_nook/features/library/data/datasources/local/book_local_data_source.dart';
+import 'package:book_nook/features/library/data/exceptions/cache_exception.dart';
+import 'package:book_nook/features/library/data/model/book_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookLocalDataSourceImpl implements BookLocalDataSource {

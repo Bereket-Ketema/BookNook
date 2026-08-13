@@ -1,4 +1,4 @@
-import 'package:flutter_first/features/library/data/model/book_model.dart';
+import 'package:book_nook/features/library/data/model/book_model.dart';
 
 abstract class BookRemoteDataSource {
   Future<List<BookModel>> getBooks();

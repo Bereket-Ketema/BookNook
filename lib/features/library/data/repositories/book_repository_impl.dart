@@ -1,15 +1,15 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_first/features/library/data/exceptions/cache_exception.dart';
-import 'package:flutter_first/features/library/data/exceptions/server_exception.dart';
-import 'package:flutter_first/features/library/data/datasources/local/book_local_data_source.dart';
-import 'package:flutter_first/core/network/network_info.dart';
-import 'package:flutter_first/features/library/data/datasources/remote/book_remote_data_source.dart';
-import 'package:flutter_first/features/library/data/model/book_model.dart';
-import 'package:flutter_first/features/library/domain/entities/book.dart';
-import 'package:flutter_first/features/library/domain/failures/cache_failure.dart';
-import 'package:flutter_first/features/library/domain/failures/failure.dart';
-import 'package:flutter_first/features/library/domain/failures/server_failure.dart';
-import 'package:flutter_first/features/library/domain/repositories/book_repository.dart';
+import 'package:book_nook/features/library/data/exceptions/cache_exception.dart';
+import 'package:book_nook/features/library/data/exceptions/server_exception.dart';
+import 'package:book_nook/features/library/data/datasources/local/book_local_data_source.dart';
+import 'package:book_nook/core/network/network_info.dart';
+import 'package:book_nook/features/library/data/datasources/remote/book_remote_data_source.dart';
+import 'package:book_nook/features/library/data/model/book_model.dart';
+import 'package:book_nook/features/library/domain/entities/book.dart';
+import 'package:book_nook/features/library/domain/failures/cache_failure.dart';
+import 'package:book_nook/features/library/domain/failures/failure.dart';
+import 'package:book_nook/features/library/domain/failures/server_failure.dart';
+import 'package:book_nook/features/library/domain/repositories/book_repository.dart';
 
 class BookRepositoryImpl implements BookRepository {
   final BookRemoteDataSource remoteDataSource;

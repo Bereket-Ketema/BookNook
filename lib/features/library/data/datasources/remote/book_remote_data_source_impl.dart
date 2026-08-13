@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_first/features/library/data/datasources/remote/book_remote_data_source.dart';
-import 'package:flutter_first/features/library/data/exceptions/server_exception.dart';
-import 'package:flutter_first/features/library/data/model/book_model.dart';
+import 'package:book_nook/features/library/data/datasources/remote/book_remote_data_source.dart';
+import 'package:book_nook/features/library/data/exceptions/server_exception.dart';
+import 'package:book_nook/features/library/data/model/book_model.dart';
 
 class BookRemoteDataSourceImpl implements BookRemoteDataSource {
   final HttpClient client;

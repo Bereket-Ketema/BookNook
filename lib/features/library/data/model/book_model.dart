@@ -1,4 +1,4 @@
-import 'package:flutter_first/features/library/domain/entities/book.dart';
+import 'package:book_nook/features/library/domain/entities/book.dart';
 
 class BookModel {
   final String id;
