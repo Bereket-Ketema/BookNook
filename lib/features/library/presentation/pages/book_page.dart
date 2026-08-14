@@ -50,6 +50,12 @@ class _BookViewState extends State<BookView> {
         }
 
         if (state is BookLoaded) {
+          if (state.books.isEmpty) {
+            return const Center(
+              child: Text('No books found'),
+            );
+          }
+
           return ListView.builder(
             padding: const EdgeInsets.all(12),
             itemCount: state.books.length,
