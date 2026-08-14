@@ -81,21 +81,39 @@ Future<Either<Failure, Unit>> addBook(Book book) async {
 
   @override
   Future<Either<Failure, List<Book>>> getBooks() async {
+    print('REPOSITORY: started');
+
     if (await networkInfo.isConnected) {
+      print('REPOSITORY: internet connected');
+
       try {
+        print('REPOSITORY: calling remote data source');
+
         final books = await remoteDataSource.getBooks();
+
+        print('REPOSITORY: remote data returned');
 
         await localDataSource.cacheBooks(books);
 
-        return Right(books.map((model) => model.toEntity()).toList());
+        print('REPOSITORY: cache completed');
+
+        return Right(
+          books.map((model) => model.toEntity()).toList(),
+        );
       } on ServerException {
+        print('REPOSITORY: server exception');
+
         return const Left(ServerFailure());
       }
     } else {
+      print('REPOSITORY: no internet');
+
       try {
         final books = await localDataSource.getCachedBooks();
 
-        return Right(books.map((model) => model.toEntity()).toList());
+        return Right(
+          books.map((model) => model.toEntity()).toList(),
+        );
       } on CacheException {
         return const Left(CacheFailure());
       }

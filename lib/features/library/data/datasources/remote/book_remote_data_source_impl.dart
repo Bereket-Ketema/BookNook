@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -56,25 +57,41 @@ class BookRemoteDataSourceImpl implements BookRemoteDataSource {
 
   @override
   Future<List<BookModel>> getBooks() async {
-    final request = await client.get(
-      'host',
-      5000,
-      '/books',
-    ); //here is the request
+    try {
+      final request = await client
+          .get(
+            'host',
+            5000,
+            '/books',
+          )
+          .timeout(
+            const Duration(seconds: 5),
+          );
 
-    final response = await request.close(); //the response come
+      final response = await request
+          .close()
+          .timeout(
+            const Duration(seconds: 5),
+          );
 
-    if (response.statusCode != 200) {
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+
+      final responseBody = await response
+          .transform(utf8.decoder)
+          .join();
+
+      final List<dynamic> jsonList = jsonDecode(responseBody);
+
+      return jsonList
+          .map((json) => BookModel.fromJson(json))
+          .toList();
+    } on TimeoutException {
+      throw ServerException();
+    } on SocketException {
       throw ServerException();
     }
-
-    final responseBody = await response
-        .transform(utf8.decoder)
-        .join(); //it convert byte stream into text join smash it to one string
-
-    final List<dynamic> jsonList = jsonDecode(responseBody);
-
-    return jsonList.map((json) => BookModel.fromJson(json)).toList();
   }
 
   @override
