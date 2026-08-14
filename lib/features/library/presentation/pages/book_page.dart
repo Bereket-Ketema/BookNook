@@ -12,65 +12,65 @@ class BookPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => BookCubit(sl<GetBooksUseCase>()),
-      child: const BookView(),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Book Nook')),
+        body: const BookView(),
+      ),
     );
   }
 }
 
-class BookView extends StatelessWidget {
+class BookView extends StatefulWidget {
   const BookView({super.key});
 
   @override
+  State<BookView> createState() => _BookViewState();
+}
+
+class _BookViewState extends State<BookView> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<BookCubit>().loadBooks();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Book')),
-      body: BlocListener<BookCubit, BookState>(
-        listener: (context, state) {
-          if (state is BookError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
+    return BlocBuilder<BookCubit, BookState>(
+      //Build my UI using the state produced by BookCubit
+      builder: (context, state) {
+        if (state is BookInitial) {
+          return const Center(child: Text('Ready to load books'));
+        }
 
-          if (state is BookLoaded) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Books loaded successfully'),
-              ),
-            );
-          }
-        },
-        child: BlocBuilder<BookCubit, BookState>(
-        builder: (context, state) {
-          if (state is BookInitial) {
-            return Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<BookCubit>().loadBooks();
-                },
-                child: const Text('Load Books'),
-              ),
-            );
-          }
+        if (state is BookLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          if (state is BookLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        if (state is BookLoaded) {
+          return ListView.builder(
+            itemCount: state.books.length,
+            itemBuilder: (context, index) {
+              final book = state.books[index];
 
-          if (state is BookLoaded) {
-            return Center(child: Text(state.books.toString()));
-          }
+              return ListTile(
+                title: Text(book.title),
+                subtitle: Text(book.author),
+              );
+            },
+          );
+        }
 
-          if (state is BookError) {
-            return Center(child: Text(state.message));
-          }
+        if (state is BookError) {
+          return Center(
+            child: Text(state.message),
+          );
+        }
 
-          return const SizedBox();
-        },
-      ),
-      ),
+        return SizedBox.shrink();
+      },
     );
   }
+
 }
