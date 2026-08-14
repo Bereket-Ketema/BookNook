@@ -17,3 +17,19 @@ class BookError extends BookState {
 
   BookError(this.message);
 }
+
+// CRUD action states
+
+class BookActionLoading extends BookState {}
+
+class BookActionSuccess extends BookState {
+  final String message;
+
+  BookActionSuccess(this.message);
+}
+
+class BookActionError extends BookState {
+  final String message;
+
+  BookActionError(this.message);
+}
