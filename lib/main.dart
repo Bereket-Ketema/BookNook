@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:book_nook/core/injection/injection_container.dart';
+import 'package:book_nook/features/library/presentation/pages/book_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,15 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, child) {
-        return Builder(builder: (context) {
-          return child!;
-        });
-      },
-      title: 'Flutter Demo',
+      title: 'Book Nook',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: const BookPage(),
     );
   }
 }
