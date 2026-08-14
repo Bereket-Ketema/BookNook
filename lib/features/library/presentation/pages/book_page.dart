@@ -24,7 +24,25 @@ class BookView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Book')),
-      body: BlocBuilder<BookCubit, BookState>(
+      body: BlocListener<BookCubit, BookState>(
+        listener: (context, state) {
+          if (state is BookError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          }
+
+          if (state is BookLoaded) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Books loaded successfully'),
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<BookCubit, BookState>(
         builder: (context, state) {
           if (state is BookInitial) {
             return Center(
@@ -51,6 +69,7 @@ class BookView extends StatelessWidget {
 
           return const SizedBox();
         },
+      ),
       ),
     );
   }
