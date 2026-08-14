@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:book_nook/core/injection/injection_container.dart';
-//import 'package:book_nook/profile.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (context, child) {
+        return Builder(builder: (context) {
+          return child!;
+        });
+      },
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
