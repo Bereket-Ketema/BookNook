@@ -2,6 +2,7 @@ import 'package:book_nook/core/injection/injection_container.dart';
 import 'package:book_nook/features/library/domain/usecases/get_books.dart';
 import 'package:book_nook/features/library/presentation/cubit/book_cubit.dart';
 import 'package:book_nook/features/library/presentation/cubit/book_state.dart';
+import 'package:book_nook/features/library/presentation/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,13 +51,13 @@ class _BookViewState extends State<BookView> {
 
         if (state is BookLoaded) {
           return ListView.builder(
+            padding: const EdgeInsets.all(12),
             itemCount: state.books.length,
             itemBuilder: (context, index) {
               final book = state.books[index];
 
-              return ListTile(
-                title: Text(book.title),
-                subtitle: Text(book.author),
+              return BookCard(
+                book: book,
               );
             },
           );
