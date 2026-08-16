@@ -9,11 +9,8 @@ class GetBooksUseCase {
   GetBooksUseCase(this.repository);
 
   Future<Either<Failure, List<Book>>> call() async {
-    print('USECASE: started');
 
     final result = await repository.getBooks();
-
-    print('USECASE: repository returned');
 
     return result;
   }
