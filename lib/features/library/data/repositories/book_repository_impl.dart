@@ -23,38 +23,26 @@ class BookRepositoryImpl implements BookRepository {
   });
 
   @override
-Future<Either<Failure, Unit>> addBook(Book book) async {
-  if (!await networkInfo.isConnected) {
-    return const Left(
-      ServerFailure('No internet connection'),
-    );
+  Future<Either<Failure, Unit>> addBook(Book book) async {
+    try {
+      final model = BookModel.fromEntity(book);
+
+      await localDataSource.addBook(model);
+
+      return const Right(unit);
+    } on CacheException {
+      return const Left(CacheFailure());
+    }
   }
-
-  try {
-    final model = BookModel.fromEntity(book);
-
-    await remoteDataSource.addBook(model);
-
-    return const Right(unit);
-  } on ServerException {
-    return const Left(ServerFailure());
-  }
-}
 
   @override
   Future<Either<Failure, Unit>> deleteBook(String id) async {
-    if (!await networkInfo.isConnected) {
-      return const Left(
-        ServerFailure('No internet connection'),
-      );
-    }
-
     try {
-      await remoteDataSource.deleteBook(id);
+      await localDataSource.deleteBook(id);
 
       return const Right(unit);
-    } on ServerException {
-      return const Left(ServerFailure());
+    } on CacheException {
+      return const Left(CacheFailure());
     }
   }
 
@@ -130,20 +118,14 @@ Future<Either<Failure, Unit>> addBook(Book book) async {
 
   @override
   Future<Either<Failure, Unit>> updateBook(Book book) async {
-    if (!await networkInfo.isConnected) {
-      return const Left(
-        ServerFailure('No internet connection'),
-      );
-    }
-
     try {
       final model = BookModel.fromEntity(book);
 
-      await remoteDataSource.updateBook(model);
+      await localDataSource.updateBook(model);
 
       return const Right(unit);
-    } on ServerException {
-      return const Left(ServerFailure());
+    } on CacheException {
+      return const Left(CacheFailure());
     }
   }
 
