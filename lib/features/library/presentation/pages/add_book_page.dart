@@ -60,7 +60,6 @@ class _AddBookPageState extends State<AddBookPage> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Form(
-                key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
