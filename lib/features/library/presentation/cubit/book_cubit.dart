@@ -44,12 +44,14 @@ class BookCubit extends Cubit<BookState> {
 
     final result = await addBookUseCase(book);
 
-    result.fold(
-      (failure) {
+    await result.fold(
+      (failure) async {
         emit(BookActionError('Failed to add book'));
       },
-      (_) {
+      (_) async {
         emit(BookActionSuccess('Book added successfully'));
+
+        await loadBooks();
       },
     );
   }
@@ -60,12 +62,14 @@ class BookCubit extends Cubit<BookState> {
 
     final result = await updateBookUseCase(book);
 
-    result.fold(
-      (failure) {
+    await result.fold(
+      (failure) async {
         emit(BookActionError('Failed to update book'));
       },
-      (_) {
+      (_) async {
         emit(BookActionSuccess('Book updated successfully'));
+
+        await loadBooks();
       },
     );
   }
@@ -76,12 +80,14 @@ class BookCubit extends Cubit<BookState> {
 
     final result = await deleteBookUseCase(id);
 
-    result.fold(
-      (failure) {
+    await result.fold(
+      (failure) async {
         emit(BookActionError('Failed to delete book'));
       },
-      (_) {
+      (_) async {
         emit(BookActionSuccess('Book deleted successfully'));
+
+        await loadBooks();
       },
     );
   }
