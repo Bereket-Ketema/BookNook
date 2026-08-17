@@ -80,15 +80,13 @@ class BookCubit extends Cubit<BookState> {
 
     final result = await deleteBookUseCase(id);
 
-    await result.fold(
-      (failure) async {
-        emit(BookActionError('Failed to delete book'));
-      },
-      (_) async {
-        emit(BookActionSuccess('Book deleted successfully'));
+    if (result.isLeft()) {
+      emit(BookActionError('Failed to delete book'));
+      return;
+    }
 
-        await loadBooks();
-      },
-    );
+    emit(BookActionSuccess('Book deleted successfully'));
+
+    await loadBooks();
   }
 }
