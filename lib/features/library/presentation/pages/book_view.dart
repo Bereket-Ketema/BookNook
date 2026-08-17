@@ -20,21 +20,6 @@ class BookView extends StatelessWidget {
 
       body: BlocConsumer<BookCubit, BookState>(
         listener: (context, state) {
-          if (state is BookActionSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
-
-          if (state is BookActionError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
         },
 
         builder: (context, state) {
