@@ -13,11 +13,6 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Image.network(
-          book.coverImageUrl,
-          width: 50,
-          fit: BoxFit.cover,
-        ),
         title: Text(book.title),
         subtitle: Text(book.author),
       ),
