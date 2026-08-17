@@ -1,3 +1,4 @@
+import 'package:book_nook/features/library/presentation/pages/edit_book_page.dart';
 import 'package:book_nook/features/library/presentation/widgets/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,21 +19,6 @@ class BookView extends StatelessWidget {
 
       body: BlocConsumer<BookCubit, BookState>(
         listener: (context, state) {
-          if (state is BookActionSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
-
-          if (state is BookActionError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-              ),
-            );
-          }
         },
 
         builder: (context, state) {
@@ -64,7 +50,60 @@ class BookView extends StatelessWidget {
                 final book = state.books[index];
 
                 return BookCard(
-                  book: book,
+                  book: book, 
+                  onEdit: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BlocProvider.value(
+                          value: context.read<BookCubit>(),
+                          child: EditBookPage(
+                            book: book,
+                          ),
+                        ),
+                      ),
+                    );
+
+                    if (result == true) {
+                      // ignore: use_build_context_synchronously
+                      context.read<BookCubit>().loadBooks();
+                    }
+                  }, 
+                  onDelete: () async {
+                    final confirmed = await showDialog<bool>(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Delete Book'),
+
+                          content: const Text(
+                            'Are you sure you want to delete this book?',
+                          ),
+
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              child: const Text('Cancel'),
+                            ),
+
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context, true);
+                              },
+                              child: const Text('Delete'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    if (confirmed == true) {
+                      // ignore: use_build_context_synchronously
+                      context.read<BookCubit>().deleteBook(book.id);
+                    }
+                  },
                 );
               },
             );
