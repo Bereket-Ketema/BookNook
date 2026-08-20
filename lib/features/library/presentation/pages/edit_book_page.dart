@@ -301,7 +301,7 @@ class _EditBookPageState extends State<EditBookPage> {
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Please enter the published yea';
+                        return 'Please enter the published year';
                       }
                       if (int.tryParse(value.trim()) == null) {
                         return 'Please enter a valid year';
